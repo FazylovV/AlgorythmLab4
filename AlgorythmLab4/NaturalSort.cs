@@ -32,9 +32,13 @@ namespace ExtSort
                 {
                     File.Delete("../../../sortedData.csv");
                     File.Copy("data.csv", "../../../sortedData.csv");
+                    Console.WriteLine("Сортировка завершена. Для продолжения нажмите любую клавишу...");
+                    Console.ReadKey();
                     break;
                 }
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
                 MergePairs();
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
         }
 
@@ -77,29 +81,49 @@ namespace ExtSort
 
                 if (secondStr is not null)
                 {
+                    Console.WriteLine($"Из исходного файла считано 2 идущих подряд элемента:" +
+                        $"\r\n{firstStr}" +
+                        $"\r\n{secondStr}\r\n");
+                    Thread.Sleep(Delay);
                     if (Compare(firstStr, secondStr))
                     {
+                        Console.WriteLine($"Значение в 1 строке меньше 2. длина сегмента для файла a.csv увеличивается на 1.");
+                        Thread.Sleep(Delay);
                         counter++;
                     }
                     else
                     {
                         tempFlag = !tempFlag;
                         segmentsLength.Add(counter + 1);
+                        Console.WriteLine($"Значение в 1 строке больше 2, конец сегмента, его длина {counter + 1}");
+                        Thread.Sleep(Delay);
                         counter = 0;
+                    }
+                }
+                else
+                {
+                    if (firstStr != null)
+                    {
+                        Console.WriteLine($"считана единственная строка из исходного файла.\r\n{firstStr}");
+                        Thread.Sleep(Delay);
                     }
                 }
 
                 if (firstStr == null)
                 {
+                    Console.WriteLine($"не считано никаих строк. конец исходного файла.");
+                    Thread.Sleep(Delay);
                     break;
                 }
 
                 if (flag)
                 {
+                    Console.WriteLine($"в файл a.csv записана строка\r\n{firstStr}\r\n");
                     writerA.WriteLine(firstStr);
                 }
                 else
                 {
+                    Console.WriteLine($"в файл b.csv записана строка\r\n{firstStr}\r\n");
                     writerB.WriteLine(firstStr);
                 }
 
@@ -108,6 +132,8 @@ namespace ExtSort
                 flag = tempFlag;
             }
             segmentsLength.Add(counter + 1);
+            Console.WriteLine($"длина последнего добавленного сегмента {counter + 1}");
+            Thread.Sleep(Delay);
 
             sr.Close();
             writerA.Close();
@@ -136,15 +162,20 @@ namespace ExtSort
 
                 if (counterA == 0 && counterB == 0)
                 {
+                    Console.WriteLine($"Сегменты из обоих файлов слились в 1 сегмент исходного файла.");
+                    Thread.Sleep(Delay);
                     if (segmentsLength.Count - 1 >= segmentNumber)
                     {
                         counterA = segmentsLength[segmentNumber];
-                        segmentNumber++;
+                        segmentNumber++; Console.WriteLine($"длина следующего сегмента из файла a.csv равна {counterA}\r\n");
+                        Thread.Sleep(Delay);
                     }
                     if (segmentsLength.Count - 1 >= segmentNumber)
                     {
                         counterB = segmentsLength[segmentNumber];
                         segmentNumber++;
+                        segmentNumber++; Console.WriteLine($"длина следующего сегмента из файла b.csv равна {counterB}\r\n");
+                        Thread.Sleep(Delay);
                     }
                 }
 
@@ -156,11 +187,18 @@ namespace ExtSort
                         {
                             elementA = readerA.ReadLine();
                             pickedA = true;
+                            Console.WriteLine($"Из файла a.csv считана строка\r\n{elementA}");
+                            Thread.Sleep(Delay);
                         }
                     }
                 }
                 else
                 {
+                    if (!endA)
+                    {
+                        Console.WriteLine($"Конец файла a.csv");
+                        Thread.Sleep(Delay);
+                    }
                     endA = true;
                 }
 
@@ -172,16 +210,25 @@ namespace ExtSort
                         {
                             elementB = readerB.ReadLine();
                             pickedB = true;
+                            Console.WriteLine($"Из файла b.csv считана строка\r\n{elementB}");
+                            Thread.Sleep(Delay);
                         }
                     }
                 }
                 else
                 {
+                    if (!endB)
+                    {
+                        Console.WriteLine($"Конец файла b.csv");
+                        Thread.Sleep(Delay);
+                    }
                     endB = true;
                 }
 
                 if (endA && endB && pickedA == false && pickedB == false)
                 {
+                    Console.WriteLine($"\r\nВсе файлы закончились, нет ни одного считанного элемента из файлов. Слияние завершено.");
+                    Thread.Sleep(Delay);
                     break;
                 }
 
@@ -189,17 +236,28 @@ namespace ExtSort
                 {
                     if (pickedB)
                     {
+                        Console.WriteLine($"\r\nСравниваемые строки:");
+                        Console.WriteLine($"файл a.csv: {elementA}");
+                        Console.WriteLine($"файл b.csv: {elementB}");
+                        Thread.Sleep(Delay);
+
                         if (Compare(elementA, elementB))
                         {
                             bw.WriteLine(elementA);
                             counterA--;
                             pickedA = false;
+                            Console.WriteLine($"\r\nВ исходный файл записана строка:\r\n{elementA}\r\n" +
+                                $"В текущем сегменте файла a.csv осталось {counterA} строк\r\n");
+                            Thread.Sleep(Delay);
                         }
                         else
                         {
                             bw.WriteLine(elementB);
                             counterB--;
                             pickedB = false;
+                            Console.WriteLine($"\r\nВ исходный файл записана строка:\r\n{elementB}\r\n" +
+                                $"В текущем сегменте файла b.csv осталось {counterB} строк\r\n");
+                            Thread.Sleep(Delay);
                         }
                     }
                     else
@@ -207,6 +265,11 @@ namespace ExtSort
                         bw.WriteLine(elementA);
                         counterA--;
                         pickedA = false;
+
+                        Console.WriteLine($"\r\nСтроку из файла a.csv не с чем сравнивать.");
+                        Console.WriteLine($"В исходный файл записана строка:\r\n{elementA}\r\n" +
+                            $"В текущем сегменте файла a.csv осталось {counterA} строк\r\n");
+                        Thread.Sleep(Delay);
                     }
                 }
                 else if (pickedB)
@@ -214,6 +277,11 @@ namespace ExtSort
                     bw.WriteLine(elementB);
                     counterB--;
                     pickedB = false;
+
+                    Console.WriteLine($"\r\nСтроку из файла b.csv не с чем сравнивать.");
+                    Console.WriteLine($"В исходный файл записана строка:\r\n{elementB}\r\n" +
+                        $"В текущем сегменте файла b.csv осталось {counterB} строк\r\n");
+                    Thread.Sleep(Delay);
                 }
             }
 

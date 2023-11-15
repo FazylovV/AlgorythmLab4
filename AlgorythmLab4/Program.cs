@@ -16,7 +16,7 @@ class Program
                 new MenuItem("Прямое слияние", "ExternalSort.Sort"),
                 new MenuItem("Естественное слияние", "NaturalSort.Sort"),
                 new MenuItem("Многопутевое слияние", "MultipathSort.Sort"),
-                new MenuItem("Exit", "exit")
+                new MenuItem("exit", "exit")
             };
         Menu menu = new Menu(menuItems);
         MenuActions.MoveThrough(menu);

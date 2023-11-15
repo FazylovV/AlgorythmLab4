@@ -1,9 +1,11 @@
 ﻿
+using AlgorythmLab4;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
 using System.IO;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace ExtSort
@@ -40,7 +42,9 @@ namespace ExtSort
                     Console.ReadKey();
                     break;
                 }
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
                 MergePairs();
+                Console.WriteLine("\r\n\r\n\r\n\r\n\r\n");
             }
         }
 
@@ -80,10 +84,10 @@ namespace ExtSort
         private void SplitToFiles()
         {
             StreamReader sr = new(File.Open(FileInput, FileMode.Open));
-            StreamWriter[] writers = new StreamWriter[PathCount];
+            FileWriter[] writers = new FileWriter[PathCount];
             for (int i = 0; i < PathCount; i++)
             {
-                writers[i] = new StreamWriter(File.Create($"a{i}.csv"));
+                writers[i] = new FileWriter($"a{i}.csv");
             }
 
             int counter = 0;
@@ -102,7 +106,7 @@ namespace ExtSort
                     Thread.Sleep(Delay);
                     if (Compare(firstStr, secondStr))
                     {
-                        Console.WriteLine($"Значение в 1 строке меньше 2. длина сегмента для файла {writers[flag]} увеличивается на 1.");
+                        Console.WriteLine($"Значение в 1 строке меньше 2. длина сегмента для файла {writers[flag].FileName} увеличивается на 1.");
                         Thread.Sleep(Delay);
                         counter++;
                     }
@@ -117,8 +121,11 @@ namespace ExtSort
                 }
                 else
                 {
-                    Console.WriteLine($"считана единственная строка из исходного файла.\r\n{firstStr}");
-                    Thread.Sleep(Delay);
+                    if(firstStr != null)
+                    {
+                        Console.WriteLine($"считана единственная строка из исходного файла.\r\n{firstStr}");
+                        Thread.Sleep(Delay);
+                    }
                 }
 
                 if (firstStr == null)
@@ -128,8 +135,8 @@ namespace ExtSort
                     break;
                 }
 
-                writers[flag].WriteLine(firstStr);
-                Console.WriteLine($"в файл {writers[flag]} записана строка\r\n{firstStr}");
+                writers[flag].Writer.WriteLine(firstStr);
+                Console.WriteLine($"в файл {writers[flag].FileName} записана строка\r\n{firstStr}\r\n");
                 Thread.Sleep(Delay);
 
                 firstStr = secondStr;
@@ -137,13 +144,13 @@ namespace ExtSort
                 flag = tempFlag;
             }
             segmentsLength.Add(counter + 1);
-            Console.WriteLine($"длина посленего добавленного сегмента {counter + 1}");
+            Console.WriteLine($"длина последнего добавленного сегмента {counter + 1}");
             Thread.Sleep(Delay);
 
             sr.Close();
-            foreach (StreamWriter sw in writers)
+            foreach(FileWriter sw in writers)
             {
-                sw.Close();
+                sw.Writer.Close();
             }
         }
 
@@ -188,9 +195,13 @@ namespace ExtSort
                 }
                 if (needForCount)
                 {
+                    Console.WriteLine($"Сегменты из всех файлов слились в 1 сегмент исходного файла.");
+                    Thread.Sleep(Delay);
                     foreach (Segment segment in segments)
                     {
                         segment.Counter = GetSegmentLength(ref segmentNumber);
+                        Console.WriteLine($"длина следующего сегмента из файла {segment.FilePath} равна {segment.Counter}\r\n");
+                        Thread.Sleep(Delay);
                     }
                 }
 
@@ -204,11 +215,18 @@ namespace ExtSort
                             {
                                 segment.Value = segment.Reader.ReadLine();
                                 segment.Picked = true;
+                                Console.WriteLine($"Из файла {segment.FilePath} считана строка\r\n{segment.Value}");
+                                Thread.Sleep(Delay);
                             }
                         }
                     }
                     else
                     {
+                        if(!segment.End)
+                        {
+                            Console.WriteLine($"Конец файла {segment.FilePath}");
+                            Thread.Sleep(Delay);
+                        }
                         segment.End = true;
                     }
                 }
@@ -220,6 +238,8 @@ namespace ExtSort
                 }
                 if (end)
                 {
+                    Console.WriteLine($"\r\nВсе файлы закончились, нет ни одного считанного элемента из файлов. Слияние завершено.");
+                    Thread.Sleep(Delay);
                     break;
                 }
 
@@ -233,20 +253,26 @@ namespace ExtSort
                     }
                 }
 
+                Console.WriteLine($"\r\nСравниваемые строки:");
                 foreach (Segment segment in segments)
                 {
                     if (segment.Picked)
                     {
+                        Console.WriteLine($"файл {segment.FilePath}: {segment.Value}");
                         if (temp.Compare(segment))
                         {
                             temp = segment;
                         }
                     }
                 }
+                Thread.Sleep(Delay);
 
                 bw.WriteLine(temp.Value);
                 temp.Picked = false;
                 temp.Counter--;
+                Console.WriteLine($"\r\nВ исходный файл записана строка:\r\n{temp.Value}\r\n" +
+                    $"В текущем сегменте файла {temp.FilePath} осталось {temp.Counter} строк\r\n");
+                Thread.Sleep(Delay);
             }
 
             bw.Close();
