@@ -76,7 +76,7 @@ public class Logger
     {
         if (level >= Level)
         {
-            var logMessage = $"[{level}] {DateTime.Now:yyyy.MM.dd HH:mm:ss} {Name} {message}";
+            var logMessage = $"[{level}] {DateTime.Now:yyyy.MM.dd HH:mm:ss} {Name}  {message}";
             foreach (var handler in _handlers)
             {
                 handler.Log(logMessage);
