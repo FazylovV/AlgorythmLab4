@@ -1,4 +1,5 @@
 ﻿using Alg4;
+using AlgorythmLab4.Task1;
 using WordCounter;
 
 class Program
@@ -16,6 +17,10 @@ class Program
                 new MenuItem("Прямое слияние", "ExternalSort.Sort"),
                 new MenuItem("Естественное слияние", "NaturalSort.Sort"),
                 new MenuItem("Многопутевое слияние", "MultipathSort.Sort"),
+                new MenuItem("Bubble sort", "InnerSorts.BubbleSort"),
+                new MenuItem("Exchange Sort", "InnerSorts.ExchangeSort"),
+                new MenuItem("Quick Sort", "InnerSorts.QuickSort"),
+                new MenuItem("Merge Sort", "InnerSorts.MergeSort"),
                 new MenuItem("exit", "exit")
             };
         Menu menu = new Menu(menuItems);

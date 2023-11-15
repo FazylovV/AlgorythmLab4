@@ -1,6 +1,8 @@
 ﻿using ExtSort;
 using System.Diagnostics;
+using System.Reflection.Metadata.Ecma335;
 using System.Runtime.ExceptionServices;
+using AlgorythmLab4.Task1;
 
 namespace Alg4
 {
@@ -42,6 +44,22 @@ namespace Alg4
                             case "Многопутевое слияние":
                                 new MultipathSort(InputDelay()).Sort();
                                 break;
+                            case "Bubble Sort":
+                                InputArray().BubbleSort();
+                                Console.ReadKey();
+                                break;
+                            case "Exchange Sort":
+                                InputArray().ExchangeSort();
+                                Console.ReadKey();
+                                break;
+                            case "Quick Sort":
+                                InputArray().QuickSort();
+                                Console.ReadKey();
+                                break;
+                            case "Merge Sort":
+                                InputArray().MergeSort();
+                                Console.ReadKey();
+                                break;
                         }
                         break;
                 }
@@ -60,6 +78,23 @@ namespace Alg4
             }
 
             return delay;
+        }
+
+        public static List<int> InputArray()
+        {
+            Console.WriteLine("Введите числа через пробел, например: \"324 87 126\"");
+            Console.Write("Ввод:");
+            string str = Console.ReadLine();
+            
+            string[] nums = str != null ? str.Split(" ") : Array.Empty<string>();
+            List<int> list = new List<int>();
+
+            foreach (var num in nums)
+            {
+                list.Add(int.Parse(num));
+            }
+
+            return list;
         }
 
         private static void ShowTheMenu(Menu menu)

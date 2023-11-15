@@ -29,7 +29,7 @@ public static class InnerSorts
         SortLogger.Info($"Результат: {list.GetArrayForLog()}");
     }
     
-    public static void ExchangeSort<T>(List<T> list) where T : IComparable
+    public static void ExchangeSort<T>(this List<T> list) where T : IComparable
     {
         SortLogger.Info($"Начинается сортировка (Метод: Exchange Sort) массива длинной: {list.Count}.");
         SortLogger.Info($"Исходный массив: {list.GetArrayForLog()}");
@@ -113,7 +113,7 @@ public static class InnerSorts
         }
     }
 
-    public static void MergeSort<T>(List<T> array) where T : IComparable
+    public static void MergeSort<T>(this List<T> array) where T : IComparable
     {
         SortLogger.Info($"Начинается сортировка (Метод: Bubble Sort) массива длинной: {array.Count}.");
         SortLogger.Info($"Исходный массив: {array.GetArrayForLog()}");
