@@ -7,4 +7,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Porter2StemmerStandard" Version="1.1.0" />
+      <PackageReference Include="PorterStemmer" Version="1.0.0" />
+    </ItemGroup>
+
 </Project>
