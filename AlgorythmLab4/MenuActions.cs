@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.ExceptionServices;
 using AlgorythmLab4.Task1;
+using WordCounter;
 
 namespace Alg4
 {
@@ -59,6 +60,10 @@ namespace Alg4
                             case "Merge Sort":
                                 InputArray().MergeSort();
                                 Console.ReadKey();
+                                break;
+                            case "Лексико-графическая сортировка":
+                                InputOutput io = new InputOutput();
+                                io.ConsoleOut(io.ReadFile());
                                 break;
                         }
                         break;
