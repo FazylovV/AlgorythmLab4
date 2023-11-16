@@ -178,16 +178,6 @@ namespace ExtSort
 
             while (true)
             {
-                /*bool end = true;
-                foreach (Segment segment in segments)
-                {
-                    end &= segment.End;
-                }
-                if (end)
-                {
-                    break;
-                }*/
-
                 bool needForCount = true;
                 foreach (Segment segment in segments)
                 {
