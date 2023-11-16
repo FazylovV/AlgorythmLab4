@@ -116,7 +116,7 @@ namespace ExtSort
                 Thread.Sleep(Delay);
             }
             segmentsLength.Add(counter);
-            Console.WriteLine($"Последний сегмент длиной добавлен в файл {writers[flag].FileName}");
+            Console.WriteLine($"Последний сегмент добавлен в файл {writers[flag].FileName}");
             Thread.Sleep(Delay);
 
             sr.Close();

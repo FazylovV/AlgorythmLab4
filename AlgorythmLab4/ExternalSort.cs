@@ -142,7 +142,7 @@ namespace ExtSort
 
                 if (counterA == 0 && counterB == 0)
                 {
-                    Console.WriteLine($"Сегменты длиной обоих файлов слились в 1 сегмент исходного файл.\r\n");
+                    Console.WriteLine($"Сегменты длиной обоих файлов слились в 1 сегмент исходного файла.\r\n");
                     Thread.Sleep(Delay);
                     counterA = iterations;
                     counterB = iterations;

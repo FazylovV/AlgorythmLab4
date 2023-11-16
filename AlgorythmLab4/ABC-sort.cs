@@ -15,7 +15,6 @@ namespace WordCounter
                 return array;
 
             var table = new Dictionary<char, List<string>>();
-            var shortWordsCounter = 0;
 
             foreach (var str in array)
             {
@@ -26,10 +25,6 @@ namespace WordCounter
                         table[key].Add(str);
                     else
                         table.Add(key, new List<string> { str });
-                }
-                else
-                {
-                    shortWordsCounter++;
                 }
             }
 
