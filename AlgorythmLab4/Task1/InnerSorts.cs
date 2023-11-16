@@ -4,7 +4,7 @@ namespace AlgorythmLab4.Task1;
 
 public static class InnerSorts
 {
-    private static Logger.Logger SortLogger = Logger.Logger.GetLogger(0);
+    public static Logger.Logger SortLogger = Logger.Logger.GetLogger(0, 1000);
     
     public static void BubbleSort<T>(this List<T> list) where T : IComparable
     {

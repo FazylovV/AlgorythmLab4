@@ -7,29 +7,34 @@ public class Logger
     public int Id { get; private set; }
     public string Name { get; set; }
     public Level Level { get; set; }
+    public int Delay { get; set; }
 
-    public Logger(string name, Level level, IMessageHandler handler)
+    public Logger(string name, Level level, IMessageHandler handler, int delay)
     {
         Initialize(name, level);
         _handlers.Add(handler);
+        Delay = delay;
     }
 
-    public Logger(string name, Level level, IEnumerable<IMessageHandler> handlers)
+    public Logger(string name, Level level, IEnumerable<IMessageHandler> handlers, int delay)
     {
         Initialize(name, level);
         _handlers.AddRange(handlers);
+        Delay = delay;
     }
 
-    public Logger(string name)
+    public Logger(string name, int delay)
     {
         Initialize(name, Level.INFO);
         _handlers.Add(new ConsoleHandler());
+        Delay = delay;
     }
 
-    public Logger(string name, Level level)
+    public Logger(string name, Level level, int delay)
     {
         Initialize(name, level);
         _handlers.Add(new ConsoleHandler());
+        Delay = delay;
     }
     
     private void Initialize(string name, Level level)
@@ -43,9 +48,9 @@ public class Logger
 
     public void AddHandler(IMessageHandler handler) => _handlers.Add(handler);
 
-    public static Logger GetLogger(int id) => _loggers.ContainsKey(id) ? _loggers[id] : new Logger("newLogger");
+    public static Logger GetLogger(int id, int delay) => _loggers.ContainsKey(id) ? _loggers[id] : new Logger("newLogger", delay);
 
-    public static Logger GetLogger(int id, string name, Level level)
+    public static Logger GetLogger(int id, string name, Level level, int delay)
     {
         if (_loggers.ContainsKey(id))
         {
@@ -53,10 +58,10 @@ public class Logger
             return _loggers[id];
         }
 
-        return new Logger(name, level);
+        return new Logger(name, level, delay);
     }
     
-    public static Logger GetLogger(int id, string name, Level level, IEnumerable<IMessageHandler> handlers)
+    public static Logger GetLogger(int id, string name, Level level, IEnumerable<IMessageHandler> handlers, int delay)
     {
         if (_loggers.ContainsKey(id))
         {
@@ -65,7 +70,7 @@ public class Logger
             return _loggers[id];
         }
 
-        return new Logger(name, level, handlers);
+        return new Logger(name, level, handlers, delay);
     }
     
     public void Log(Level level, string message) => LogMessage(level, message);
@@ -82,6 +87,8 @@ public class Logger
                 handler.Log(logMessage);
             }
         }
+        
+        Thread.Sleep(Delay);
     }
     
     public void Debug(string message) => Log(Level.DEBUG, message);

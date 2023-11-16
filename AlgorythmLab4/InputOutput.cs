@@ -23,6 +23,7 @@ namespace WordCounter
             {
                 Console.WriteLine($"{word} x{lemmer.countedWords[word]}");
             }
+            Console.ReadKey();
         }
     }
 }

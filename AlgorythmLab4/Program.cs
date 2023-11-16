@@ -23,6 +23,7 @@ class Program
                 new MenuItem("Exchange Sort", "InnerSorts.ExchangeSort"),
                 new MenuItem("Quick Sort", "InnerSorts.QuickSort"),
                 new MenuItem("Merge Sort", "InnerSorts.MergeSort"),
+                new MenuItem("Лексико-графическая сортировка", "InputOutput.ConsoleOut"),
                 new MenuItem("exit", "exit")
             };
         Menu menu = new Menu(menuItems);

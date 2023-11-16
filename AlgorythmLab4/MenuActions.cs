@@ -2,7 +2,9 @@
 using System.Diagnostics;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.ExceptionServices;
+using AlgorythmLab4.Logger;
 using AlgorythmLab4.Task1;
+using WordCounter;
 
 namespace Alg4
 {
@@ -45,22 +47,31 @@ namespace Alg4
                                 new MultipathSort(InputDelay()).Sort();
                                 break;
                             case "Bubble Sort":
+                                InnerSorts.SortLogger = Logger.GetLogger(1, InputDelay());
                                 InputArray().BubbleSort();
                                 Console.ReadKey();
                                 break;
                             case "Exchange Sort":
+                                InnerSorts.SortLogger = Logger.GetLogger(1, InputDelay());
                                 InputArray().ExchangeSort();
                                 Console.ReadKey();
                                 break;
                             case "Quick Sort":
+                                InnerSorts.SortLogger = Logger.GetLogger(1, InputDelay());
                                 InputArray().QuickSort();
                                 Console.ReadKey();
                                 break;
                             case "Merge Sort":
+                                InnerSorts.SortLogger = Logger.GetLogger(1, InputDelay());
                                 InputArray().MergeSort();
                                 Console.ReadKey();
                                 break;
+                            case "Лексико-графическая сортировка":
+                                InputOutput io = new InputOutput();
+                                io.ConsoleOut(io.ReadFile());
+                                break;
                         }
+                        ConsoleHelper.ClearScreen();
                         break;
                 }
             }
