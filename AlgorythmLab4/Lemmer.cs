@@ -21,10 +21,10 @@ namespace WordCounter
             char[] separators = new char[] { ',', ' ', '.', ':', ';', '\r', '\n', '-', '–' };
             foreach (string word in splittedText)
             {
-                if (word == null || word == "") continue;
+                if (word == null || word == "") { continue; }
                 string newWord = word.ToLower();
                 newWord = word.Trim(separators);
-                if (newWord == null || newWord == "") continue;
+                if (newWord == null || newWord == "") { continue; }
 
 
                 string lemm = Lemmize(newWord);
@@ -53,6 +53,7 @@ namespace WordCounter
                 if (newWord == null || newWord == "") continue;
 
                 string lemm = Lemmize(newWord);
+                lemm = lemm.ToLower();
                 if (words.ContainsKey(lemm))
                 {
                     words[lemm]++;

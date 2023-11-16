@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Alg4;
 
 namespace WordCounter
 {
@@ -13,6 +14,7 @@ namespace WordCounter
         private Lemmer? lemmer;
         public string[] ReadFile () 
         {
+            ConsoleHelper.ClearScreen();
             lemmer = new Lemmer(File.ReadAllText(path));
             return ABCSortAlgorithm.ABCSort(lemmer.countedWords.Keys.ToArray<string>());
         }
@@ -23,6 +25,7 @@ namespace WordCounter
             {
                 Console.WriteLine($"{word} x{lemmer.countedWords[word]}");
             }
+            Console.SetCursorPosition(0,0);
             Console.ReadKey();
         }
     }
