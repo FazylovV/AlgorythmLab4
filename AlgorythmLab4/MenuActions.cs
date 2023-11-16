@@ -14,7 +14,8 @@ namespace Alg4
         {
             while (true)
             {
-                ConsoleHelper.ClearScreen();
+                //ConsoleHelper.ClearScreen();
+                Console.Clear();
                 ShowTheMenu(menu);
                 ConsoleKeyInfo pressedKey = Console.ReadKey();
                 switch (pressedKey.Key)
