@@ -7,6 +7,7 @@ using System.Diagnostics.Metrics;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Security.Principal;
 
 namespace ExtSort
 {
@@ -15,6 +16,7 @@ namespace ExtSort
         public string FileInput { get; set; } = "data.csv";
         private static int PathCount { get; set; }
         private static int column { get; set; }
+        private static int Iterations { get; set; } = 1;
         private static readonly List<int> segmentsLength = new();
         private int Delay { get; set; }
 
@@ -92,59 +94,29 @@ namespace ExtSort
 
             int counter = 0;
             int flag = 0;
-            var firstStr = sr.ReadLine();
-            var secondStr = sr.ReadLine();
-            while (true)
+            while (!sr.EndOfStream)
             {
-                int tempFlag = flag;
+                string line = sr.ReadLine();
 
-                if (secondStr is not null)
+                if(counter == Iterations)
                 {
-                    Console.WriteLine($"Из исходного файла считано 2 идущих подряд элемента:" +
-                        $"\r\n{firstStr}" +
-                        $"\r\n{secondStr}\r\n");
+                    var tempFlag = flag;
+                    SwitchFlag(ref flag);
+                    Console.WriteLine($"В файл {writers[tempFlag].FileName} записан сегмент длиной {Iterations}. " +
+                            $"Следующий сегмент будет записан в файл {writers[flag].FileName}");
                     Thread.Sleep(Delay);
-                    if (Compare(firstStr, secondStr))
-                    {
-                        Console.WriteLine($"Значение в 1 строке меньше 2. длина сегмента для файла {writers[flag].FileName} увеличивается на 1.");
-                        Thread.Sleep(Delay);
-                        counter++;
-                    }
-                    else
-                    {
-                        SwitchFlag(ref tempFlag);
-                        segmentsLength.Add(counter + 1);
-                        Console.WriteLine($"Значение в 1 строке больше 2, конец сегмента, его длина {counter + 1}");
-                        Thread.Sleep(Delay);
-                        counter = 0;
-                    }
-                }
-                else
-                {
-                    if(firstStr != null)
-                    {
-                        Console.WriteLine($"считана единственная строка из исходного файла.\r\n{firstStr}");
-                        Thread.Sleep(Delay);
-                    }
+
+                    segmentsLength.Add(counter);
+                    counter = 0;
                 }
 
-                if (firstStr == null)
-                {
-                    Console.WriteLine($"не считано никаих строк. конец исходного файла.");
-                    Thread.Sleep(Delay);
-                    break;
-                }
-
-                writers[flag].Writer.WriteLine(firstStr);
-                Console.WriteLine($"в файл {writers[flag].FileName} записана строка\r\n{firstStr}\r\n");
+                writers[flag].Writer.WriteLine(line);
+                counter++;
+                Console.WriteLine($"в файл {writers[flag].FileName} записана строка\r\n{line}\r\n");
                 Thread.Sleep(Delay);
-
-                firstStr = secondStr;
-                secondStr = sr.ReadLine();
-                flag = tempFlag;
             }
-            segmentsLength.Add(counter + 1);
-            Console.WriteLine($"длина последнего добавленного сегмента {counter + 1}");
+            segmentsLength.Add(counter);
+            Console.WriteLine($"Последний сегмент длиной добавлен в файл {writers[flag].FileName}");
             Thread.Sleep(Delay);
 
             sr.Close();
@@ -270,6 +242,8 @@ namespace ExtSort
             {
                 segment.Reader.Close();
             }
+
+            Iterations *= PathCount;
         }
 
         private static int GetSegmentLength(ref int segmentNumber)
