@@ -11,6 +11,8 @@ class Program
         /*InputOutput io = new InputOutput();
         io.ConsoleOut(io.ReadFile());*/
 
+
+        ABCSortAlgorithm.ABCSort(File.ReadAllLines("../../../test.csv"), 0);
         Console.CursorVisible = false;
         List<MenuItem> menuItems = new List<MenuItem>()
             {
