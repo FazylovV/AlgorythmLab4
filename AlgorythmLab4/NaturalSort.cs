@@ -87,7 +87,14 @@ namespace ExtSort
                     Thread.Sleep(Delay);
                     if (Compare(firstStr, secondStr))
                     {
-                        Console.WriteLine($"Значение в 1 строке меньше 2. длина сегмента для файла a.csv увеличивается на 1.");
+                        if (flag)
+                        {
+                            Console.WriteLine($"Значение в 1 строке меньше 2. длина сегмента для файла a.csv увеличивается на 1.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Значение в 1 строке меньше 2. длина сегмента для файла b.csv увеличивается на 1.");
+                        }
                         Thread.Sleep(Delay);
                         counter++;
                     }
